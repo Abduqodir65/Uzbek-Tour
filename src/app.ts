@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { appConfig, dbConfig } from './config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { City } from './modules';
+import { City, Routes } from './modules';
 
 
 
@@ -21,7 +21,7 @@ import { City } from './modules';
         username: config.get('database.user'),
         password: config.get('database.password'),
         database: config.get('database.dbName'),
-        models: [City],
+        models: [City,Routes],
         synchronize: true,
       }),
       inject: [ConfigService]
