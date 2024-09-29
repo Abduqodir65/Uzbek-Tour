@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { appConfig, dbConfig } from './config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { City } from './modules/cities/schemas';
+import { City } from './modules';
+
 
 
 @Module({
