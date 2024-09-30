@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { appConfig, dbConfig } from '@config';
+import { appConfig, dbConfig } from './config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { City, CityModule, Galery, GaleryModule, Routes } from './modules';
 import { RouterModule } from '@nestjs/core';
