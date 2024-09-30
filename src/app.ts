@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { appConfig, dbConfig } from './config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { City, CityModule, Galery, GaleryModule, Routes } from './modules';
+import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule } from './modules';
 import { RouterModule } from '@nestjs/core';
 
 
@@ -36,7 +36,7 @@ import { RouterModule } from '@nestjs/core';
       },
     }),
     CityModule,
-    RouterModule,
+    RoutesModule,
     GaleryModule
   ],
 })
