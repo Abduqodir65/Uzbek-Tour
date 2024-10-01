@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { User } from "./schemas";
-import path from "path";
+import * as path from "path";
 import * as multer from "multer";
 import { CreateUserDto, UpdateUserDto } from "./dtos";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -31,6 +31,7 @@ export class UserController {
                 return callback(null, "./uploads");
             },
             filename: function (req, file, cb) {
+                console.log("Uploaded file:", file); 
                 const extName = path.extname(file.originalname);
                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
                 cb(null, file.fieldname + '-' + uniqueSuffix + extName);
@@ -38,8 +39,12 @@ export class UserController {
         })
     }))
     async createUser(@Body() createUserPayload: CreateUserDto, @UploadedFile() image: Express.Multer.File): Promise<void> {
+        if (!image) {
+            throw new Error("Image file is required");
+        }
         await this.#_service.createUser({ ...createUserPayload, image: image.filename });
     }
+
 
     @Patch('/:id')
     async updateUser(@Param('id') id: string, @Body() updateUserPayload: UpdateUserDto): Promise<void> {
