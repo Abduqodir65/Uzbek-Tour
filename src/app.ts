@@ -2,9 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { appConfig, dbConfig } from './config';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule } from './modules';
-import { UserModule } from './modules/users/user.module';
-import { User } from './modules/users/schemas';
+import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule, User, UserModule } from './modules';
 
 
 @Module({
@@ -27,7 +25,7 @@ import { User } from './modules/users/schemas';
             database: config.get('database.dbName'),
             models: [City,Routes,Galery,User],
             synchronize: true,
-            sync: { force: true },
+            // sync: { force: true },
             logging: console.log,
             autoLoadModels: true,
           };

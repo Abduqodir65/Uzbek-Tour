@@ -61,14 +61,14 @@ export class UserController {
         await this.#_service.updateUser(Number(id), updateUserPayload);
 
         return {
-            message: 'success', 
-            updatedUser: updateUserPayload 
+            message: 'User updated successfully',
+            updatedUser: updateUserPayload
         };
     }
 
     @Delete('delete/:id')
-    async deleteUser(@Param('id') id: string): Promise<{ message: string }> {
+    async deleteUser(@Param('id') id: string): Promise<{message: string}> {
         await this.#_service.deleteUser(Number(id));
-        return { message: "User deleted successfully" };
+        return {message:"User deleted successfully"}
     }
 }
