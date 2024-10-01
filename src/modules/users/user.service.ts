@@ -2,6 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { User } from "./schemas";
 import { InjectModel } from "@nestjs/sequelize";
 import { CreateUserRequest, UpdateUserRequest } from "./interfaces";
+import path from "path";
+import fs from 'fs'
 
 @Injectable()
 export class UserService {
@@ -36,11 +38,20 @@ export class UserService {
         return { message: 'User updated successfully', updatedUser };
     }
 
-    async deleteUser(id: number): Promise<{message: string}> {
+    async deleteUser(id: number): Promise<{ message: string }> {
+        const user = await this.userModel.findOne({ where: { id } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const imagePath = path.join(__dirname, '..', '..', 'uploads', user.image);
+        fs.unlink(imagePath, (err) => {
+            if (err) {
+                console.error(`Error deleting file: ${err}`);
+            }
+        });
         await this.userModel.destroy({
             where: { id },
         });
-
-        return {message: "User deleted successfuly"}
+        return { message: "User deleted successfully" };
     }
 }
