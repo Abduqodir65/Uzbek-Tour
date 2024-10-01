@@ -10,4 +10,11 @@ export class CityService {
         return await this.cityModel.findAll();
     }
 
+    async getSingleCity(id: number): Promise<City> {
+        return await this.cityModel.findOne({
+            where:{id}
+        })
+    }
+
+    
 }

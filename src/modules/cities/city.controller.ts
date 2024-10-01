@@ -14,4 +14,10 @@ export class CityController {
     async getCities() :Promise<City[]> {
         return await this.#_service.getAllCities();
     }
+
+    @Get('/id')
+    async getSingleCity(id:number): Promise<City> {
+        return await this.#_service.getSingleCity(id);
+    }
+
 }
