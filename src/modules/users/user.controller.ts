@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseInt
 import { UserService } from "./user.service";
 import { User } from "./schemas";
 import path from "path";
-import multer from "multer";
+import * as multer from "multer";
 import { CreateUserDto, UpdateUserDto } from "./dtos";
 import { FileInterceptor } from "@nestjs/platform-express";
 
