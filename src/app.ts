@@ -3,7 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { appConfig, dbConfig } from './config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule } from './modules';
-import { RouterModule } from '@nestjs/core';
+import { UserModule } from './modules/users/user.module';
+import { User } from './modules/users/schemas';
 
 
 @Module({
@@ -24,7 +25,7 @@ import { RouterModule } from '@nestjs/core';
             username: config.get('database.user'),
             password: config.get('database.password'),
             database: config.get('database.dbName'),
-            models: [City,Routes,Galery],
+            models: [City,Routes,Galery,User],
             synchronize: true,
             sync: { force: true },
             logging: console.log,
@@ -37,7 +38,8 @@ import { RouterModule } from '@nestjs/core';
     }),
     CityModule,
     RoutesModule,
-    GaleryModule
+    GaleryModule,
+    UserModule
   ],
 })
 export class AppModule {}
