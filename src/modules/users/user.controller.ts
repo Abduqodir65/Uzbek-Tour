@@ -5,6 +5,7 @@ import * as path from "path";
 import * as multer from "multer";
 import { CreateUserDto, UpdateUserDto } from "./dtos";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { CreateUserRequest } from "./interfaces";
 
 @Controller('users')
 export class UserController {
@@ -30,29 +31,45 @@ export class UserController {
             destination(req, file, callback) {
                 return callback(null, "./uploads");
             },
-            filename: function (req, file, cb) {
-                console.log("Uploaded file:", file); 
+            filename(req, file, cb) {
                 const extName = path.extname(file.originalname);
                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
                 cb(null, file.fieldname + '-' + uniqueSuffix + extName);
             }
         })
     }))
-    async createUser(@Body() createUserPayload: CreateUserDto, @UploadedFile() image: Express.Multer.File): Promise<void> {
-        if (!image) {
-            throw new Error("Image file is required");
+    async createUser(
+        @Body() createUserPayload: CreateUserRequest,
+        @UploadedFile() image: Express.Multer.File
+    ): Promise<{ message: string; user: CreateUserRequest }> {
+        if (image) {
+            createUserPayload.image = image.filename;
         }
-        await this.#_service.createUser({ ...createUserPayload, image: image.filename });
+        await this.#_service.createUser(createUserPayload);
+        return {
+            message: 'success',
+            user: createUserPayload
+        };
     }
 
+    @Patch('update/:id')
+    async updateUser(
+        @Param('id') id: string,
+        @Body() updateUserPayload: UpdateUserDto
+    ): Promise<{ message: string; updatedUser: UpdateUserDto }> {
 
-    @Patch('/:id')
-    async updateUser(@Param('id') id: string, @Body() updateUserPayload: UpdateUserDto): Promise<void> {
         await this.#_service.updateUser(Number(id), updateUserPayload);
+
+        return {
+            message: 'success', 
+            updatedUser: updateUserPayload 
+        };
     }
 
-    @Delete('/:id')
-    async deleteUser(@Param('id') id: string): Promise<void> {
+    @Delete('delete/:id')
+    async deleteUser(@Param('id') id: string): Promise<{message: string}> {
         await this.#_service.deleteUser(Number(id));
+
+        return {message:"User deleted successfully"}
     }
 }
