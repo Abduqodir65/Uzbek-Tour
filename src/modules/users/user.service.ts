@@ -2,8 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { User } from "./schemas";
 import { InjectModel } from "@nestjs/sequelize";
 import { CreateUserRequest, UpdateUserRequest } from "./interfaces";
-import * as path from "path";
-import * as fs from 'fs'
+
 
 @Injectable()
 export class UserService {
