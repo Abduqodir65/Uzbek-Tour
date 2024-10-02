@@ -3,7 +3,6 @@ import { User } from "./schemas";
 import { InjectModel } from "@nestjs/sequelize";
 import { CreateUserRequest, UpdateUserRequest } from "./interfaces";
 
-
 @Injectable()
 export class UserService {
     constructor(@InjectModel(User) private userModel: typeof User) { }
