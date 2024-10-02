@@ -4,6 +4,6 @@ export declare interface CreateCityRequest {
     region:string;
     history:string;
     climate:string;
-    image: string;
-    video: string;
+    city_image: string;
+    city_video: string;
 }

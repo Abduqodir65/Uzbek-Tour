@@ -42,7 +42,7 @@ export class CityController {
         @UploadedFile() image: Express.Multer.File
     ): Promise<{ message: string; city: CreateCityRequest }> {
         if (image) {
-            createCityPayload.image = image.filename;
+            createCityPayload.city_image = image.filename;
         }
         await this.#_service.createCity(createCityPayload);
         return {

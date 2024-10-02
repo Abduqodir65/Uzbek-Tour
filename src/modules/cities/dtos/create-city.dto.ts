@@ -22,6 +22,6 @@ export class CreateCityDto implements Omit<CreateCityRequest, "image"> {
     @IsNotEmpty()
     climate:string;
 
-    image: any;
-    video: any;
+    city_image: any;
+    city_video: any;
 }
