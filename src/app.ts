@@ -4,8 +4,8 @@ import { appConfig, dbConfig } from './config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule, User, UserModule } from './modules';
 import { ExceptionHandlerFilter } from './filters';
-import { APP_FILTER } from '@nestjs/core';
-
+import { APP_FILTER,APP_GUARD } from '@nestjs/core';
+import { CheckAuthGuard } from './guards';
 
 @Module({
   imports: [
@@ -42,8 +42,8 @@ import { APP_FILTER } from '@nestjs/core';
     UserModule
   ],
   providers: [{
-    useClass: ExceptionHandlerFilter,
-    provide: APP_FILTER
+    useClass: CheckAuthGuard,
+    provide:APP_GUARD
   }]
 
 })
