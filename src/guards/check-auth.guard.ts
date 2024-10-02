@@ -8,7 +8,8 @@ export class CheckAuthGuard implements CanActivate {
         const request = ctx.getRequest<Request>()
 
         const bearerToken = request.headers["authorization"];
-        
+
+        if(!bearerToken || bearerToken.startsWith("Bearer ") || bearerToken.split("Bearer ")[])
         return true;
     }
 }
