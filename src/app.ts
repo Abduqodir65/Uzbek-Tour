@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { appConfig, dbConfig } from './config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule, User, UserModule } from './modules';
+import { ExceptionHandlerFilter } from './filters';
+import { APP_FILTER } from '@nestjs/core';
 
 
 @Module({
@@ -39,5 +41,11 @@ import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule, User, Use
     GaleryModule,
     UserModule
   ],
+  providers: [{
+    useClass: ExceptionHandlerFilter,
+    provide: APP_FILTER
+  }]
+
 })
 export class AppModule {}
+

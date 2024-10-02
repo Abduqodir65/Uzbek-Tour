@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common';
 import { GaleryService } from './galery.service';
 import { Galery } from './schemas';
 import { CreateGaleryRequest, UpdateGaleryRequest } from './interfaces';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
 import * as path from 'path';
+import { ExceptionHandlerFilter } from 'src/filters';
 
 @Controller('galery')
 export class GaleryController {
@@ -20,16 +21,16 @@ export class GaleryController {
         return this.galeryService.getGaleryById(id);
     }
 
-    @Post()
+    @Post('/add')
     @UseInterceptors(FileInterceptor("image", {
         storage: multer.diskStorage({
             destination(req, file, callback) {
-                callback(null, './uploads'); // Rasm saqlanadigan papka
+                callback(null, './uploads'); 
             },
             filename(req, file, cb) {
                 const extName = path.extname(file.originalname);
                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-                cb(null, file.fieldname + '-' + uniqueSuffix + extName); // Unikal fayl nomi
+                cb(null, file.fieldname + '-' + uniqueSuffix + extName); 
             }
         })
     }))
@@ -43,7 +44,7 @@ export class GaleryController {
         return this.galeryService.createGalery(createGaleryPayload);
     }
 
-    @Put(':id')
+    @Put('/update:id')
     async updateGalery(
         @Param('id') id: number,
         @Body() updateGaleryPayload: UpdateGaleryRequest
@@ -51,8 +52,5 @@ export class GaleryController {
         return this.galeryService.updateGalery(id, updateGaleryPayload);
     }
 
-    @Delete(':id')
-    async deleteGalery(@Param('id') id: number): Promise<{ message: string }> {
-        return this.galeryService.deleteGalery(id);
-    }
+    
 }

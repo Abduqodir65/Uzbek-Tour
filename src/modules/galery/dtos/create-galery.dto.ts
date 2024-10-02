@@ -4,7 +4,7 @@ import { CreateGaleryRequest } from "../interfaces";
 export class CreateGaleryDto implements Omit<CreateGaleryRequest, "image"> {
     @IsString()
     @IsNotEmpty()
-    name: string;
+    city_name: string;
 
     image: any;
 

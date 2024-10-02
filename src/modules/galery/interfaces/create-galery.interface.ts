@@ -1,4 +1,4 @@
 export declare interface CreateGaleryRequest {
-    name: string;
+    city_name: string;
     image:string
 }
