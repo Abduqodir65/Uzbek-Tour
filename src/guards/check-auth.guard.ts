@@ -1,11 +1,17 @@
 import { BadRequestException, CanActivate, ExecutionContext } from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
 import { Request } from "express";
 import { Observable } from "rxjs";
+import { Protected } from "src/decorators/protected.decorator";
 
 export class CheckAuthGuard implements CanActivate {
+    constructor(private reflector: Reflector) {}
+
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const ctx = context.switchToHttp();
         const request = ctx.getRequest<Request>()
+
+        const isProtected = this.reflector.get(Protected, context.getHandler())
 
         const bearerToken = request.headers["authorization"];
 
