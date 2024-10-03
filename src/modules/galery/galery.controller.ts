@@ -39,5 +39,8 @@ export class GaleryController {
         return this.galeryService.updateGalery(id, updateGaleryPayload);
     }
 
-    
+    @Delete('/delete/:id')
+    async deleteGalery(@Param('id') id:string) {
+        return this.galeryService.deleteGalery(+id)
+    }
 }
