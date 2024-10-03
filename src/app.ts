@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { appConfig, dbConfig } from './config';
+import { appConfig, dbConfig, jwtConfig } from './config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule, User, UserModule } from './modules';
 import { ExceptionHandlerFilter } from './filters';
@@ -11,7 +11,7 @@ import { CheckAuthGuard } from './guards';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, dbConfig],
+      load: [appConfig, dbConfig,jwtConfig],
     }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
