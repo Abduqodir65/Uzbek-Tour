@@ -6,6 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
 import * as path from 'path';
 import { ExceptionHandlerFilter } from 'src/filters';
+import { CreateGaleryDto } from './dtos';
 
 @Controller('galery')
 export class GaleryController {
@@ -22,26 +23,12 @@ export class GaleryController {
     }
 
     @Post('/add')
-    @UseInterceptors(FileInterceptor("image", {
-        storage: multer.diskStorage({
-            destination(req, file, callback) {
-                callback(null, './uploads'); 
-            },
-            filename(req, file, cb) {
-                const extName = path.extname(file.originalname);
-                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-                cb(null, file.fieldname + '-' + uniqueSuffix + extName); 
-            }
-        })
-    }))
+    @UseInterceptors(FileInterceptor('image'))
     async createGalery(
-        @Body() createGaleryPayload: CreateGaleryRequest,
+        @Body() createGaleryDto: CreateGaleryDto,
         @UploadedFile() image: Express.Multer.File
-    ): Promise<{ message: string; galery: Galery }> {
-        if (image) {
-            createGaleryPayload.image = image.filename;
-        }
-        return this.galeryService.createGalery(createGaleryPayload);
+    ) {
+        return this.galeryService.createGalery(createGaleryDto,image)
     }
 
     @Put('/update:id')

@@ -4,10 +4,12 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateGaleryRequest, UpdateGaleryRequest } from './interfaces'; 
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { CreateGaleryDto } from './dtos';
+import { FileService } from '../file';
 
 @Injectable()
 export class GaleryService {
-    constructor(@InjectModel(Galery) private galeryModel: typeof Galery) {}
+    constructor(@InjectModel(Galery) private galeryModel: typeof Galery, private readonly fileService:FileService) {}
 
     async getAllGaleries(): Promise<Galery[]> {
         return await this.galeryModel.findAll();
@@ -21,13 +23,15 @@ export class GaleryService {
         return galery;
     }
 
-    async createGalery(payload: CreateGaleryRequest): Promise<{ message: string; galery: Galery }> {
-        const galery = await this.galeryModel.create({
-            city_name: payload.city_name,
-            image: payload.image,
-        });
-        return { message: 'Galery created successfully', galery };
+    async createGalery(createGalery: CreateGaleryDto, file:Express.Multer.File): Promise<object>{
+        const image = await this.fileService.uploadFile(file)
+        const new_galery = await this.galeryModel.create({...CreateGaleryDto, image})
+        return {
+            message: 'New galery added successfully',
+            data: new_galery
+        }
     }
+
 
     async updateGalery(id: number, payload: UpdateGaleryRequest): Promise<Galery> {
         const galery = await this.galeryModel.findByPk(id);

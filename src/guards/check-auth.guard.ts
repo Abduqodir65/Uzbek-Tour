@@ -22,10 +22,10 @@ export class CheckAuthGuard implements CanActivate {
 
         const bearerToken = request.headers["authorization"];
 
-        if(!(bearerToken && bearerToken.startsWith("Bearer ") && bearerToken.split("Bearer ")[1]?.length))
-        {
-            throw new BadRequestException('Please provide valid bearer token');
-        }
+        // if(!(bearerToken && bearerToken.startsWith("Bearer ") && bearerToken.split("Bearer ")[1]?.length))
+        // {
+        //     throw new BadRequestException('Please provide valid bearer token');
+        // }
 
         if(!isProtected){
             request.role = "user"
