@@ -20,7 +20,6 @@ export class CheckAuthGuard implements CanActivate {
             throw new BadRequestException('Please provide valid bearer token');
         }
 
-        // SPLIT ACCESS TOKEN FROM BEARER TOKEN
         const token = bearerToken.split("Bearer ")[1]
         
         return true;
