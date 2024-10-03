@@ -24,6 +24,7 @@ export class CityController {
         return await this.#_service.getSingleCity(id);
     }
 
+
     @Post('/add')
     @UseInterceptors(FileInterceptor("image", {
         storage: multer.diskStorage({
@@ -37,18 +38,15 @@ export class CityController {
             }
         })
     }))
-    async createCity(
-        @Body() createCityPayload: CreateCityRequest,
-        @UploadedFile() image: Express.Multer.File
-    ): Promise<{ message: string; city: CreateCityRequest }> {
-        if (image) {
+    async createCity(@Body() createCityPayload: CreateCityRequest,@UploadedFile() image: Express.Multer.File): Promise<{ message:string;city:CreateCityRequest }>{
+        if(image) {
             createCityPayload.city_image = image.filename;
         }
         await this.#_service.createCity(createCityPayload);
         return {
             message: 'success',
-            city: createCityPayload
-        };
+            city:createCityPayload
+        }
     }
 
     @Put('/update/:id')

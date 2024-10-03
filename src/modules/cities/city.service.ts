@@ -19,7 +19,7 @@ export class CityService {
         })
     }
 
-    async createCity(payload: CreateCityRequest): Promise<{ message: string; city: City }> {
+    async createCity(payload: CreateCityRequest): Promise<{ message: string, city: City }> {
         const city = await this.cityModel.create({
             name: payload.name,
             description: payload.description,
@@ -28,9 +28,8 @@ export class CityService {
             climate: payload.climate,
             city_image: payload.city_image,
             city_video: payload.city_video
-
         });
-        return { message: 'City created successfully', city };
+        return { message: 'City Created successfully',city}
     }
 
     async updateCity(id: number, payload: CreateCityRequest): Promise<{ message: string; city: City }> {
