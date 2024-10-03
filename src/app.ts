@@ -6,12 +6,20 @@ import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule, User, Use
 import { ExceptionHandlerFilter } from './filters';
 import { APP_FILTER,APP_GUARD } from '@nestjs/core';
 import { CheckAuthGuard } from './guards';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       load: [appConfig, dbConfig,jwtConfig],
+    }),
+    JwtModule.register({
+      secret: 'my secret',
+      global: true,
+      signOptions: {
+        expiresIn: 60 * 15
+      }
     }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
