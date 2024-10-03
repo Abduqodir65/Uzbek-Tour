@@ -42,7 +42,7 @@ export class GaleryService {
     }
 
     async deleteGalery(id: number): Promise<object> {
-        const galery = await this.findOne(id)
+        const galery = await this.getGaleryById(id)
         await this.fileService.deleteFile(galery.image)
         galery.destroy();
         return {

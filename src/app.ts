@@ -7,6 +7,7 @@ import { ExceptionHandlerFilter } from './filters';
 import { APP_FILTER,APP_GUARD } from '@nestjs/core';
 import { CheckAuthGuard } from './guards';
 import { JwtModule } from '@nestjs/jwt';
+import { FileModule } from './modules/file';
 
 @Module({
   imports: [
@@ -47,7 +48,8 @@ import { JwtModule } from '@nestjs/jwt';
     CityModule,
     RoutesModule,
     GaleryModule,
-    UserModule
+    UserModule,
+    FileModule
   ],
   providers: [{
     useClass: CheckAuthGuard,
