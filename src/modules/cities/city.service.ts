@@ -19,45 +19,4 @@ export class CityService {
         })
     }
 
-    async createCity(payload: CreateCityRequest): Promise<{ message: string, city: City }> {
-        const city = await this.cityModel.create({
-            name: payload.name,
-            description: payload.description,
-            region: payload.region,
-            history: payload.history,
-            climate: payload.climate,
-            city_image: payload.city_image,
-            city_video: payload.city_video
-        });
-        return { message: 'City Created successfully',city}
-    }
-
-    async updateCity(id: number, payload: CreateCityRequest): Promise<{ message: string; city: City }> {
-        const city = await this.cityModel.findOne({ where: { id } });
-        if (!city) {
-            throw new Error('City not found');
-        }
-
-        await city.update(payload);
-        return { message: 'City updated successfully', city };
-    }
-
-    async deleteCity(id: number): Promise<{ message: string }> {
-        const city = await this.cityModel.findOne({ where: { id } });
-        if (!city) {
-            throw new Error('City not found');
-        }
-
-        if (city.city_image) {
-            const imagePath = path.join(__dirname, '..', 'uploads', city.city_image);
-            try {
-                fs.unlink(imagePath);
-            } catch (err) {
-                console.error('Error while deleting image file:', err);
-                throw new Error('Failed to delete image file');
-            }
-        }
-        await city.destroy();
-        return { message: 'City deleted successfully' };
-    }
 }

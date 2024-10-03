@@ -1,8 +1,8 @@
 import { Roles } from 'src/decorators';
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, NotAcceptableException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Request } from 'express';
 import { Observable } from 'rxjs';
+import { RequestInterface } from './check-auth.guard';
 
 @Injectable()
 export class CheckRolesGuard implements CanActivate {
@@ -12,18 +12,11 @@ export class CheckRolesGuard implements CanActivate {
         context: ExecutionContext,
     ): boolean | Promise<boolean> | Observable<boolean> {
         const roles = this.reflector.get(Roles, context.getHandler());
-        const request = context.switchToHttp().getRequest<Request>();
+        const request = context.switchToHttp().getRequest<RequestInterface>()
 
-        const { role } = request.body;
-
-        if (!roles?.length) {
-            return true;
+        if(!roles.includes(request.role)) {
+            throw new NotAcceptableException("User don't have permisson to this endpoint")
         }
-
-        if (!role || !roles.includes(role)) {
-            return false;
-        }
-
-        return true;
+        return true
     }
 }
