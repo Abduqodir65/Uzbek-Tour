@@ -24,8 +24,11 @@ export class CheckAuthGuard implements CanActivate {
 
         const token = bearerToken.split("Bearer ")[1]
         
-
-        this.jwtService.verify(token, {secret:this.configService.get<string>('jwt.accessKey')})
+        try {
+            this.jwtService.verify(token, {secret:this.configService.get<string>('jwt.accessKey')})
+        } catch (error) {
+            console.log(error, "checkauth error")
+        }
         
         return true;
     }
