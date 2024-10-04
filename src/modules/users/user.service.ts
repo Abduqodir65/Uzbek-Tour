@@ -34,7 +34,6 @@ export class UserService {
         return { message: 'User created successfully', new_user}
     }
 
-
     async updateUser(id: number, payload: UpdateUserRequest): Promise<{ message: string; updatedUser: User }> {
         await this.userModel.update(payload, {
             where: { id },
@@ -42,5 +41,17 @@ export class UserService {
         const updatedUser = await this.userModel.findOne({ where: { id } });
         return { message: 'User updated successfully', updatedUser };
     }
+
+    async deleteUser(id: number): Promise<{message:string}>{
+        const foundedUser = await this.userModel.findByPk(id)
+
+        await this.fileService.deleteFile(foundedUser.image)
+        foundedUser.destroy()
+        
+        return {
+            message: "User deleted successfully"
+        }
+    }
+
 
 }

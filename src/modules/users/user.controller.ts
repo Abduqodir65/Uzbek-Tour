@@ -50,5 +50,8 @@ export class UserController {
         };
     }
 
-
+    @Delete('delete/:id')
+    async delteUser(@Param('id') id:string): Promise<{message:string}>{
+        return this.#_service.deleteUser(+id)
+    }
 }
