@@ -14,6 +14,9 @@ export class UpdateUserDto implements Omit<UpdateUserRequest, "image"> {
     @IsString()
     email ?: string;
 
+    @IsString()
+    role ?: string;
+
     image : any;
 
 }

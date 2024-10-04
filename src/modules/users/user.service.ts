@@ -17,17 +17,6 @@ export class UserService {
         });
     }
 
-    async createUser(payload: CreateUserRequest): Promise<{ message: string; user: User }> {
-        const user = await this.userModel.create({
-            name: payload.name,
-            age: payload.age,
-            country: payload.country,
-            email: payload.email,
-            image: payload.image,
-        });
-        return { message: 'User created successfully', user };
-    }
-
     async updateUser(id: number, payload: UpdateUserRequest): Promise<{ message: string; updatedUser: User }> {
         await this.userModel.update(payload, {
             where: { id },
@@ -36,11 +25,4 @@ export class UserService {
         return { message: 'User updated successfully', updatedUser };
     }
 
-    async deleteUser(id: number): Promise<{message: string}> {
-        await this.userModel.destroy({
-            where: { id },
-        });
-
-        return {message: "User deleted successfuly"}
-    }
 }
