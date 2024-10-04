@@ -25,7 +25,7 @@ export class GaleryService {
 
     async createGalery(createGalery: CreateGaleryDto, file:Express.Multer.File): Promise<object>{
         const image = await this.fileService.uploadFile(file)
-        const new_galery = await this.galeryModel.create({...CreateGaleryDto, image})
+        const new_galery = await this.galeryModel.create({...createGalery, image})
         return {
             message: 'New galery added successfully',
             data: new_galery
