@@ -19,10 +19,10 @@ export class UserService {
         });
     }
 
-    async createUser(payload:CreateUserDto, file:Express.Multer.File): Promise<void> {
+    async createUser(payload:CreateUserDto, file:Express.Multer.File): Promise<{ message:string; new_user: User }> {
         const image = await this.fileService.uploadFile(file)
 
-        await this.userModel.create({
+        const new_user = await this.userModel.create({
             name: payload.name,
             age: payload.age,
             country: payload.country,
@@ -30,7 +30,10 @@ export class UserService {
             role: payload.role,
             image
         })
+
+        return { message: 'User created successfully', new_user}
     }
+
 
     async updateUser(id: number, payload: UpdateUserRequest): Promise<{ message: string; updatedUser: User }> {
         await this.userModel.update(payload, {

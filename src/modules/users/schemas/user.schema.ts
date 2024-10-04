@@ -17,7 +17,7 @@ export class User extends Model {
     @Column({ type: DataType.STRING, allowNull:false  })
     role: string;
     
-    @Column({ type: DataType.STRING, allowNull: false })
+    @Column({ type: DataType.STRING, allowNull: false, defaultValue:"user" })
     image: string;
 
 }

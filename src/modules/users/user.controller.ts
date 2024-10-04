@@ -27,8 +27,13 @@ export class UserController {
 
     @Post('/add')
     @UseInterceptors(FileInterceptor('image'))
-    async createUser(@Body() createUserPaload: CreateUserDto,@UploadedFile() image:Express.Multer.File): Promise<void>{
+    async createUser(@Body() createUserPaload: CreateUserDto,@UploadedFile() image:Express.Multer.File): Promise<{message:string,new_user:CreateUserDto}>{
         await this.#_service.createUser(createUserPaload,image);
+
+        return {
+            message:"User created successfully",
+            new_user: createUserPaload
+        }
     }
 
     @Patch('update/:id')
