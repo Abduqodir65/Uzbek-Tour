@@ -9,5 +9,5 @@ export class Routes extends Model {
     description: string;
 
     @Column({ type: DataType.STRING, allowNull: true })
-    route_image: string;
+    image: string;
 }
