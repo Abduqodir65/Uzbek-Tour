@@ -1,5 +1,10 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
+export enum UserRoles {
+    user = "USER",
+    admin = "ADMIN"
+}
+
 @Table({ timestamps: true, tableName: 'users' })
 export class User extends Model {
     @Column({ allowNull: false, type: DataType.STRING })
@@ -14,10 +19,10 @@ export class User extends Model {
     @Column({ type: DataType.TEXT, allowNull: false })
     email: string;
 
-    @Column({ type: DataType.STRING, allowNull:false  })
-    role: string;
+    @Column({ type: DataType.ENUM,values: [UserRoles.user, UserRoles.admin], allowNull:false,defaultValue:UserRoles})
+    role: UserRoles;
     
-    @Column({ type: DataType.STRING, allowNull: false, defaultValue:"user" })
+    @Column({ type: DataType.STRING, allowNull: false })
     image: string;
 
 }
