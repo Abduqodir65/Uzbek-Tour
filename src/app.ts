@@ -8,6 +8,7 @@ import { APP_FILTER,APP_GUARD } from '@nestjs/core';
 import { CheckAuthGuard } from './guards';
 import { JwtModule } from '@nestjs/jwt';
 import { FileModule } from './modules/file';
+import { AuthModule } from './modules/auth';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { FileModule } from './modules/file';
         }
       },
     }),
+    AuthModule,
     CityModule,
     RoutesModule,
     GaleryModule,
