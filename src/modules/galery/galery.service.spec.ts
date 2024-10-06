@@ -48,7 +48,7 @@ describe('GaleryController', () => {
         const result = { ...createGaleryDto, id: 1 };
 
         mockGaleryService.createGalery.mockResolvedValue(result);
-        
+
         const file = {
             buffer: Buffer.from('data'), // Bu joyda o'z ma'lumotlaringizni qo'shishingiz mumkin
             fieldname: 'image',
@@ -80,6 +80,5 @@ describe('GaleryController', () => {
         const responseMessage = { message: 'Galery deleted successfully' };
         mockGaleryService.deleteGalery.mockResolvedValue(responseMessage);
 
-        expect(await galeryController.deleteGalery(1)).toBe(responseMessage);
-    });
+        expect(await galeryController.deleteGalery('1')).toBe(responseMessage);});
 });
