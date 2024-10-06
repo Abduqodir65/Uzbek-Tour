@@ -18,7 +18,11 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@config": ["./scr/config"]
+      "@config": ["./scr/config/*"],
+      "@modules": ["./src/modules/*"],
+      "@decorators":["./src/decorators/*"],
+      "@filters":["./src/filters/*"],
+      "@guards": [".src/guards/*"]
     }
   }
 }

@@ -1,49 +1,85 @@
-import { getModelToken } from "@nestjs/sequelize";
-import { Test, TestingModule } from "@nestjs/testing"
-import { CategoryService, Category } from "@modules";
+import { Test, TestingModule } from '@nestjs/testing';
+import { GaleryController } from './galery.controller';
+import { GaleryService } from './galery.service';
+import { CreateGaleryDto } from './dtos';
 
-describe("CategoryService", () => {
-    let service: CategoryService;
+describe('GaleryController', () => {
+    let galeryController: GaleryController;
+    let galeryService: GaleryService;
 
-    const categoryMockModel = {
-        findAll: jest.fn(),
-        create: jest.fn(),
-        update: jest.fn(),
-        destroy: jest.fn()
-    }
+    const mockGaleryService = {
+        getAllGaleries: jest.fn(),
+        createGalery: jest.fn(),
+        updateGalery: jest.fn(),
+        deleteGalery: jest.fn(),
+    };
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [CategoryService, {provide: getModelToken(Category), useValue: categoryMockModel}]
-        }).compile()
+            controllers: [GaleryController],
+            providers: [
+                {
+                    provide: GaleryService,
+                    useValue: mockGaleryService,
+                },
+            ],
+        }).compile();
 
-        service = module.get<CategoryService>(CategoryService)
-    })
+        galeryController = module.get<GaleryController>(GaleryController);
+        galeryService = module.get<GaleryService>(GaleryService);
+    });
 
-    it("should be defined", async () => {
-        expect(service).toBeDefined()
-    })
+    it('should be defined', () => {
+        expect(galeryController).toBeDefined();
+    });
 
-    it("should return category", async () => {
-        const responseData = [{id: 1, name: "New category"}]
-        categoryMockModel.findAll.mockResolvedValue(responseData)
+    it('should return all galleries', async () => {
+        const result = [{ id: 1, name: 'New Gallery', city_name: 'Jizax', image: 'image.png' }];
+        mockGaleryService.getAllGaleries.mockResolvedValue(result);
 
-        const categories = await service.getAllCategories()
-        expect(categories).toHaveLength(responseData.length)
-        expect(categories).toMatchObject(responseData)
-        expect(categoryMockModel.findAll).toHaveBeenCalled()
-    })
+        expect(await galeryController.getAllGaleries()).toBe(result);
+    });
 
-    it("should create new category", async () => {
-        const createCategoryDto = {name: "New category"}
-        const responseData = {...createCategoryDto, id: 1}
+    it('should create a new gallery', async () => {
+        const createGaleryDto: CreateGaleryDto = { 
+            city_name: 'Jizax', 
+            image: 'image.png' 
+        };
+        const result = { ...createGaleryDto, id: 1 };
+
+        mockGaleryService.createGalery.mockResolvedValue(result);
         
-        categoryMockModel.create.mockResolvedValue(responseData)
+        const file = {
+            buffer: Buffer.from('data'), // Bu joyda o'z ma'lumotlaringizni qo'shishingiz mumkin
+            fieldname: 'image',
+            originalname: 'image.png',
+            encoding: '7bit',
+            mimetype: 'image/png',
+            size: 12345,
+            destination: '',
+            filename: 'image.png',
+            path: '',
+            stream: null,
+        } as Express.Multer.File;
+        
+        expect(await galeryController.createGalery(createGaleryDto, file)).toBe(result);
 
-        const response = await service.createCategory(createCategoryDto)
+        expect(mockGaleryService.createGalery).toHaveBeenCalledWith(createGaleryDto, expect.anything());
+    });
 
-        expect(response.id).toEqual(1)
-        expect(response.name).toEqual(createCategoryDto.name)
-        expect(categoryMockModel.create).toHaveBeenCalled()
-    })
-})
+    it('should update a gallery', async () => {
+        const updatePayload = { name: 'Updated Gallery', city_name: 'Toshkent', image: 'updated_image.png' };
+        const result = { id: 1, ...updatePayload };
+
+        mockGaleryService.updateGalery.mockResolvedValue(result);
+
+        expect(await galeryController.updateGalery(1, updatePayload)).toBe(result);
+    });
+
+    it('should delete a gallery', async () => {
+        const responseMessage = { message: 'Galery deleted successfully' };
+        mockGaleryService.deleteGalery.mockResolvedValue(responseMessage);
+
+        expect(await galeryController.deleteGalery(1)).toBe(responseMessage);
+    });
+});

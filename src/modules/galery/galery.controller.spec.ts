@@ -32,7 +32,7 @@ describe('GaleryController', () => {
 
     describe('findAll', () => {
         it('should return an array of galeries', async () => {
-            const galeries: any[] = [{ id: 1, city_name: 'galery1',image:'image.png' }];
+            const galeries: any[] = [{ id: 1, city_name: 'galery1', image: 'image.png' }];
             mockGaleryService.getAllGaleries.mockResolvedValue(galeries);
 
             const result = await galeryController.getAllGaleries();
@@ -44,8 +44,9 @@ describe('GaleryController', () => {
 
     describe('create', () => {
         it('should create a new galery', async () => {
-            const galery = { id: '1', city_name: 'Yangiyol',image:'image.png' };
-            const createGaleryDto = { city_name: 'Jizax' , image:'image.png'};
+            const galery = { id: '1', city_name: 'Yangiyol', image: 'image.png' };
+            const createGaleryDto = { city_name: 'Jizax',image: 'image.png'};
+
             const file: Express.Multer.File = {
                 fieldname: 'image',
                 originalname: 'image.png',
@@ -58,13 +59,14 @@ describe('GaleryController', () => {
                 path: '',
                 stream: null,
             };
-            
+
             mockGaleryService.createGalery.mockResolvedValue(galery);
 
             const result = await galeryController.createGalery(createGaleryDto, file);
             expect(result).toEqual(galery);
-            expect(galeryService.createGalery).toHaveBeenCalledWith(createGaleryDto);
+            expect(galeryService.createGalery).toHaveBeenCalledWith(createGaleryDto, file); // file argumentini qo'shish
         });
     });
+
 });
 
