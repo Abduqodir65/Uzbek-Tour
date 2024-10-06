@@ -1,45 +1,54 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { User } from "../users";
-import { LoginRequest, LoginResponse } from "./interfaces";
-import { InjectModel } from "@nestjs/sequelize";
-import { ConfigService } from "@nestjs/config";
-import { JwtModule, JwtService } from "@nestjs/jwt";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { User } from '../users';
+import { LoginRequest, LoginResponse } from './interfaces';
 
 @Injectable()
 export class AuthService {
-    constructor(@InjectModel(User) private readonly usermodel:typeof User, private config:ConfigService, private jwt:JwtService ) { }
+    constructor(
+        @InjectModel(User) private usermodel: typeof User,
+        private config: ConfigService,
+        private jwt: JwtService,
+    ) { }
 
-    async login(payload:LoginRequest):Promise<LoginResponse> { 
-        const foundedUser = this.usermodel.findOne({where: {email: payload.email, phone:payload.phone}})
+    async login(payload: LoginRequest): Promise<LoginResponse> {
+        const foundedUser = await this.usermodel.findOne({
+            where: { email: payload.email, phone: payload.phone },
+        });
 
-        if(!foundedUser){
-            throw new NotFoundException('User Not Found')
+        if (!foundedUser) {
+            throw new NotFoundException('User not found');
         }
 
-        const accessToken = await this.jwt.signAsync({
-            id: foundedUser.id,
-            role: foundedUser.role,
-        },
-        {
-            expiresIn: this.config.get<number>("jwt.accessTime"),
-            secret: this.config.get<string>("jwt.accessKey")
-        })
+        const accessToken = await this.jwt.signAsync(
+            {
+                id: foundedUser.id,
+                role: foundedUser.role,
+            },
+            {
+                expiresIn: this.config.get<number>('jwt.accessTime'),
+                secret: this.config.get<string>('jwt.accessKey'),
+            },
+        );
 
-        const refreshToken = await this.jwt.signAsync({
-            id: foundedUser.id,
-            role: foundedUser.role,
-        },
-        {
-            expiresIn: this.config.get<number>("jwt.refreshTime"),
-            secret: this.config.get<string>("jwt.refreshKey")
-        })
+        const refreshToken = await this.jwt.signAsync(
+            {
+                id: foundedUser.id,
+                role: foundedUser.role,
+            },
+            {
+                expiresIn: this.config.get<string>('jwt.refreshTime'),
+                secret: this.config.get<string>('jwt.refreshKey'),
+            },
+        );
 
         return {
-            message: 'logged in',
+            message: 'successfully logged in',
             accessToken,
-            refreshToken
-        }
-
+            refreshToken,
+        };
     }
 
     async register() { }
@@ -47,5 +56,4 @@ export class AuthService {
     async logout() { }
 
     async refresh() { }
-
 }

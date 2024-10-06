@@ -4,6 +4,7 @@ export declare interface LoginRequest {
 }
 
 export declare interface LoginResponse {
+    message:string;
     accessToken: string,
     refreshToken:string
 }
