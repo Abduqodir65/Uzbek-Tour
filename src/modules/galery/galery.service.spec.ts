@@ -50,7 +50,7 @@ describe('GaleryController', () => {
         mockGaleryService.createGalery.mockResolvedValue(result);
 
         const file = {
-            buffer: Buffer.from('data'), // Bu joyda o'z ma'lumotlaringizni qo'shishingiz mumkin
+            buffer: Buffer.from('data'), 
             fieldname: 'image',
             originalname: 'image.png',
             encoding: '7bit',
