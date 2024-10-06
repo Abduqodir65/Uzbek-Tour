@@ -42,9 +42,9 @@ describe('RouteController', () => {
 
     it('should create a new route', async () => {
         const createRouteDto: CreateRouteDto = {
-            name: 'Jizax',
             description: "juda chiroyli shahar",
-            image: 'image.png'
+            image: "image.png",
+            name: "Jizax"
         };
         const result = { ...createRouteDto, id: 1 };
 
