@@ -9,7 +9,7 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -18,11 +18,21 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@config": ["./scr/config/*"],
-      "@modules": ["./src/modules/*"],
-      "@decorators":["./src/decorators/*"],
-      "@filters":["./src/filters/*"],
-      "@guards": [".src/guards/*"]
+      "@config": [
+        "./src/config/*"
+      ], 
+      "@modules": [
+        "./src/modules/*"
+      ],
+      "@decorators": [
+        "./src/decorators/*"
+      ],
+      "@filters": [
+        "./src/filters/*"
+      ],
+      "@guards": [
+        "./src/guards/*"
+      ]
     }
   }
 }
