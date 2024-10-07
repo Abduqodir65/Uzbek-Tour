@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import { JsonWebTokenError, JwtService, NotBeforeError, TokenExpiredError } from '@nestjs/jwt';
 import { User } from '../users';
-import { LoginRequest, LoginResponse } from './interfaces';
+import { LoginRequest, LoginResponse, RefreshRequest, RefreshResponse, RegisterRequest, RegisterResponse } from './interfaces';
 
 @Injectable()
 export class AuthService {
@@ -51,9 +51,87 @@ export class AuthService {
         };
     }
 
-    async register() { }
+    async register(payload: RegisterRequest): Promise<RegisterResponse> {
+        const newUser = await this.usermodel.create({ name: payload.name, email: payload.email, phone: payload.phone })
+
+        const accessToken = await this.jwt.signAsync(
+            {
+                id: newUser.id,
+                role: newUser.role,
+            },
+            {
+                expiresIn: this.config.get<number>('jwt.accessTime'),
+                secret: this.config.get<string>('jwt.accessKey'),
+            },
+        );
+
+        const refreshToken = await this.jwt.signAsync(
+            {
+                id: newUser.id,
+                role: newUser.role,
+            },
+            {
+                expiresIn: this.config.get<string>('jwt.refreshTime'),
+                secret: this.config.get<string>('jwt.refreshKey'),
+            },
+        );
+
+        return {
+            message: 'successfully registered in',
+            accessToken,
+            refreshToken,
+        };
+    }
 
     async logout() { }
 
-    async refresh() { }
+    async refresh(payload: RefreshRequest): Promise<RefreshResponse> {
+        try {
+            this.jwt.verify(payload.refreshToken, { secret: this.config.get<string>('jwt.refreshKey') })
+        } catch (error) {
+            if (error instanceof TokenExpiredError) {
+                throw new UnprocessableEntityException("Token already expired")
+            }
+
+            if (error instanceof NotBeforeError) {
+                throw new ConflictException("Token not before error")
+            }
+
+            if (error instanceof JsonWebTokenError) {
+                throw new BadRequestException(error.message)
+            }
+
+            throw new InternalServerErrorException("Internal error occurred")
+        }
+
+        const userDecodedData = this.jwt.decode(payload.refreshToken)
+
+        const accessToken = await this.jwt.signAsync(
+            {
+                id: userDecodedData?.id,
+                role: userDecodedData?.role,
+            },
+            {
+                expiresIn: this.config.get<number>('jwt.accessTime'),
+                secret: this.config.get<string>('jwt.accessKey'),
+            },
+        );
+
+        const refreshToken = await this.jwt.signAsync(
+            {
+                id: userDecodedData?.id,
+                role: userDecodedData?.role,
+            },
+            {
+                expiresIn: this.config.get<string>('jwt.refreshTime'),
+                secret: this.config.get<string>('jwt.refreshKey'),
+            },
+        );
+
+        return {
+            message: 'successfully refresh',
+            accessToken,
+            refreshToken,
+        };
+    }
 }

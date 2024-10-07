@@ -5,7 +5,7 @@ import { CreateGaleryRequest, UpdateGaleryRequest } from './interfaces';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
 import * as path from 'path';
-import { ExceptionHandlerFilter } from 'src/filters';
+import { ExceptionHandlerFilter } from 'filters';
 import { CreateGaleryDto } from './dtos';
 
 @Controller('galery')

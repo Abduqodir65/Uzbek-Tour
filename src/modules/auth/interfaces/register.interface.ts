@@ -3,6 +3,7 @@ export declare interface RegisterRequest {
     age:number;
     country:string;
     email: string;
+    phone:string;
     role:string;
     image:string;
 }

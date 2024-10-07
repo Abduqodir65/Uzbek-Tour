@@ -3,6 +3,7 @@ export declare interface UpdateUserRequest {
     age ?: number;
     country ?: string;
     email ?: string;
+    phone ?: string;
     role ?: string;
     image ?: string;
 }
