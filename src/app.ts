@@ -9,6 +9,7 @@ import { CheckAuthGuard } from './guards';
 import { JwtModule } from '@nestjs/jwt';
 import { FileModule } from './modules/file';
 import { AuthModule } from './modules/auth';
+import { MailModule } from 'modules/mailer/mail.module';
 
 @Module({
   imports: [
@@ -51,7 +52,8 @@ import { AuthModule } from './modules/auth';
     RoutesModule,
     GaleryModule,
     UserModule,
-    FileModule
+    FileModule,
+    MailModule
   ],
   providers: [{
     useClass: CheckAuthGuard,
