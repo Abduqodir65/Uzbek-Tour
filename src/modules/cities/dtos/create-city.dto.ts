@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { CreateCityRequest } from "../interfaces";
 
 export class CreateCityDto implements Omit<CreateCityRequest, "image"> {
@@ -22,6 +22,11 @@ export class CreateCityDto implements Omit<CreateCityRequest, "image"> {
     @IsNotEmpty()
     climate:string;
 
-    city_image: any;
-    city_video: any;
+    @IsOptional() // Agar ixtiyoriy bo'lsa
+    @IsString() // Agar rasm/fayl yo'li `string` bo'lsa
+    city_image: string; 
+
+    @IsOptional() // Agar ixtiyoriy bo'lsa
+    @IsString() // Agar video yo'li `string` bo'lsa
+    city_video: string;
 }

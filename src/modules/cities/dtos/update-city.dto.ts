@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { UpdateCityRequest } from "../interfaces";
 
 export class UpdateCityDto implements Omit<UpdateCityRequest, "image"> {
@@ -17,6 +17,9 @@ export class UpdateCityDto implements Omit<UpdateCityRequest, "image"> {
     @IsString()
     climate:string;
 
-    city_image: any;
-    city_video: any;
+    @IsOptional()
+    city_image?: any;
+
+    @IsOptional()
+    city_video?: any;
 }

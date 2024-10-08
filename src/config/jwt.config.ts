@@ -1,4 +1,3 @@
-import { access } from "fs";
 
 export const jwtConfig = () => ({
     jwt: {
