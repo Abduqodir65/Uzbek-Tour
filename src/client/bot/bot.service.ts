@@ -7,6 +7,6 @@ import { Context } from "telegraf";
 export class BotService {
     @Start()
     async startBot(@Ctx() context: Context) {
-        context.reply("Assalomu alekum! \n Uzbek-Tour sayting botiga hush kelibsiz'😊")
+        context.reply("Assalomu alekum!\n Uzbek-Tour sayting botiga hush kelibsiz'😊")
     }
 }

@@ -49,7 +49,7 @@ import { BotModule } from 'client';
       },
     }),
     TelegrafModule.forRoot({
-      token: process.env.BOT_TOKEN
+      token: "8025979878:AAG8im1RuZXTeVoJ5hg-zeYkx7BGzTy04xs"
     }),
     AuthModule,
     CityModule,
@@ -60,10 +60,10 @@ import { BotModule } from 'client';
     MailModule,
     BotModule
   ],
-  providers: [{
-    useClass: CheckAuthGuard,
-    provide:APP_GUARD
-  }]
+  // providers: [{
+  //   useClass: CheckAuthGuard,
+  //   provide:APP_GUARD
+  // }]
 
 })
 export class AppModule {}
