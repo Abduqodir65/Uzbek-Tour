@@ -1,4 +1,4 @@
-import { Roles } from 'src/decorators';
+import { Roles } from 'decorators';
 import { CanActivate, ExecutionContext, Injectable, NotAcceptableException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';

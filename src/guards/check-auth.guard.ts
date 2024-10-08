@@ -4,7 +4,7 @@ import { Reflector } from "@nestjs/core";
 import { JsonWebTokenError, JwtService, NotBeforeError, TokenExpiredError } from "@nestjs/jwt";
 import { Request } from "express";
 import { Observable } from "rxjs";
-import { Protected } from "src/decorators/protected.decorator";
+import { Protected } from "decorators";
 
 export declare interface RequestInterface extends Request {
     userId: string | undefined,
