@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { appConfig, dbConfig, jwtConfig } from './config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { City, CityModule, Galery, GaleryModule, Routes, RoutesModule, User, UserModule } from './modules';
-import { ExceptionHandlerFilter } from './filters';
 import { APP_FILTER,APP_GUARD } from '@nestjs/core';
 import { CheckAuthGuard } from './guards';
 import { JwtModule } from '@nestjs/jwt';
