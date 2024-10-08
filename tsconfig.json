@@ -32,6 +32,9 @@
       ],
       "@guards": [
         "./src/guards/*"
+      ],
+      "@client": [
+        "./src/client/*"
       ]
     }
   }
