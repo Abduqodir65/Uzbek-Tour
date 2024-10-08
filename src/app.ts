@@ -10,6 +10,7 @@ import { FileModule } from './modules/file';
 import { AuthModule } from './modules/auth';
 import { MailModule } from 'modules/mailer/mail.module';
 import { TelegrafModule } from 'nestjs-telegraf';
+import { BotModule } from 'client';
 
 @Module({
   imports: [
@@ -56,7 +57,8 @@ import { TelegrafModule } from 'nestjs-telegraf';
     GaleryModule,
     UserModule,
     FileModule,
-    MailModule
+    MailModule,
+    BotModule
   ],
   providers: [{
     useClass: CheckAuthGuard,
