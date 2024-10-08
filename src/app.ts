@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { FileModule } from './modules/file';
 import { AuthModule } from './modules/auth';
 import { MailModule } from 'modules/mailer/mail.module';
+import { TelegrafModule } from 'nestjs-telegraf';
 
 @Module({
   imports: [
@@ -46,6 +47,9 @@ import { MailModule } from 'modules/mailer/mail.module';
           console.log(error);
         }
       },
+    }),
+    TelegrafModule.forRoot({
+      token: process.env.BOT_TOKEN
     }),
     AuthModule,
     CityModule,
