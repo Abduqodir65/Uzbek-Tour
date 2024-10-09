@@ -1,11 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { User } from "./schemas";
-import * as path from "path";
-import * as multer from "multer";
 import { CreateUserDto, UpdateUserDto } from "./dtos";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { CreateUserRequest } from "./interfaces";
 
 @Controller('users')
 export class UserController {
